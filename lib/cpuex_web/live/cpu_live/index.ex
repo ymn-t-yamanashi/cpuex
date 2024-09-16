@@ -5,18 +5,23 @@ defmodule CpuexWeb.CpuLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     Process.send_after(self(), :update, 250)
-
+    cpuinfo = get_cpuinfo()
+    max_mhz = Enum.max(cpuinfo)
     socket
-    |> assign(graph: create_graph())
+    |> assign(max_mhz: max_mhz)
+    |> assign(graph: create_graph(cpuinfo))
     |> ok()
   end
 
   @impl true
   def handle_info(:update, socket) do
     Process.send_after(self(), :update, 250)
+    cpuinfo = get_cpuinfo()
 
+    max_mhz = Enum.max(cpuinfo ++ [socket.assigns.max_mhz])
     socket
-    |> assign(graph: create_graph())
+    |> assign(max_mhz: max_mhz)
+    |> assign(graph: create_graph(cpuinfo))
     |> noreply()
   end
 
@@ -36,9 +41,9 @@ defmodule CpuexWeb.CpuLive.Index do
     |> String.to_integer()
   end
 
-  def create_graph() do
+  def create_graph(cpuinfo) do
     Vl.new(width: 800, height: 400)
-    |> Vl.data_from_values(x: 1..32, y: get_cpuinfo())
+    |> Vl.data_from_values(x: 1..32, y: cpuinfo)
     |> Vl.mark(:bar, color: "#ffaaaa", width: 20)
     |> Vl.encode_field(:x, "x", type: :quantitative)
     |> Vl.encode_field(:y, "y", type: :quantitative)
