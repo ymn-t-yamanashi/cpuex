@@ -28,7 +28,7 @@ defmodule Cpuex do
           app: @app,
           id: CpuexWindow,
           title: "cpuex",
-          size: {400, 800},
+          size: {1000, 1000},
           url: "http://localhost:#{port}"
         ]
       })
