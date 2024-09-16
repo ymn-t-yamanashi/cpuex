@@ -12,7 +12,9 @@ config :cpuex,
 
 # Configures the endpoint
 config :cpuex, CpuexWeb.Endpoint,
-  url: [host: "localhost"],
+  http: [ip: {127, 0, 0, 1}, port: 10_000 + :rand.uniform(45_000)],
+  server: true,
+  secret_key_base: :crypto.strong_rand_bytes(32),
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [html: CpuexWeb.ErrorHTML, json: CpuexWeb.ErrorJSON],

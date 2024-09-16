@@ -5,10 +5,9 @@ defmodule CpuexWeb.Endpoint do
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
-    store: :cookie,
+    store: :ets,
     key: "_cpuex_key",
-    signing_salt: "TbpmQgRc",
-    same_site: "Lax"
+    table: :session
   ]
 
   socket "/live", Phoenix.LiveView.Socket,
