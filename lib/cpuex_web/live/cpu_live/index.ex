@@ -22,9 +22,10 @@ defmodule CpuexWeb.CpuLive.Index do
 
   defp assign_cpuinfo(socket) do
     cpuinfo = CpuInfo.get_cpuinfo()
-    max_mhz = Map.get(socket.assigns, :max_mhz, 0)
 
-    max_mhz = Enum.max(cpuinfo ++ [max_mhz])
+    max_mhz =
+      Map.get(socket.assigns, :max_mhz, 0)
+      |> then(&Enum.max(cpuinfo ++ [&1]))
 
     socket
     |> assign(max_mhz: max_mhz)
