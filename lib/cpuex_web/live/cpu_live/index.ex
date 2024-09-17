@@ -1,7 +1,7 @@
 defmodule CpuexWeb.CpuLive.Index do
   alias Cpuex.CpuInfo
   use CpuexWeb, :live_view
-  @update_time 5000
+  @update_time 250
 
   @impl true
   def mount(_params, _session, socket) do
@@ -27,6 +27,7 @@ defmodule CpuexWeb.CpuLive.Index do
     history =
       Map.get(socket.assigns, :history, [])
       |> then(&(&1 ++ [cpuinfo]))
+      |> Enum.take(-20)
 
     max_mhz =
       Map.get(socket.assigns, :max_mhz, 0)

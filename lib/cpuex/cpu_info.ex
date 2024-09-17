@@ -22,7 +22,7 @@ defmodule Cpuex.CpuInfo do
     |> Vl.concat(
       [
         create_bar_graph(cpuinfo),
-        create_line_graph(history |> List.first())
+        create_lines_graphs(history)
       ],
       :vertical
     )
@@ -35,15 +35,24 @@ defmodule Cpuex.CpuInfo do
     Vl.new(width: 800)
     |> Vl.data_from_values(x: 1..32, y: cpuinfo)
     |> Vl.mark(:bar, color: "#ffaaaa", width: 20)
-    |> Vl.encode_field(:x, "x", type: :quantitative, scale: %{domain: [0, 32]})
+    |> Vl.encode_field(:x, "x", type: :quantitative, scale: %{domain: [1, 32]})
     |> Vl.encode_field(:y, "y", type: :quantitative, scale: %{domain: [0, 6000]})
   end
 
   defp create_line_graph(cpuinfo) do
     Vl.new(width: 800)
-    |> Vl.data_from_values(x: 1..10, y: cpuinfo)
-    |> Vl.mark(:line, color: "#ffaaaa", width: 20)
-    |> Vl.encode_field(:x, "x", type: :quantitative, scale: %{domain: [0, 100]})
+    |> Vl.data_from_values(x: 1..20, y: cpuinfo)
+    |> Vl.mark(:line, color: "#ffaaaa")
+    |> Vl.encode_field(:x, "x", type: :quantitative, scale: %{domain: [1, 20]})
     |> Vl.encode_field(:y, "y", type: :quantitative, scale: %{domain: [0, 6000]})
+  end
+
+  def create_lines_graphs(history) do
+    graph =
+      history
+      |> Enum.reduce([], fn x, acc -> acc ++ [create_line_graph(x)] end)
+
+    Vl.new()
+    |> Vl.layers(graph)
   end
 end
