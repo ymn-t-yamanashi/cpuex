@@ -19,12 +19,18 @@ defmodule Cpuex.CpuInfo do
 
   def create_graph(cpuinfo) do
     Vl.new(width: 800, height: 400)
-    |> Vl.data_from_values(x: 1..32, y: cpuinfo)
-    |> Vl.mark(:bar, color: "#ffaaaa", width: 20)
-    |> Vl.encode_field(:x, "x", type: :quantitative)
-    |> Vl.encode_field(:y, "y", type: :quantitative)
+    |> create_bar_graph(cpuinfo)
     |> Vl.Export.to_png()
     |> Base.encode64()
     |> then(&"data:image/png;base64,#{&1}")
   end
+
+  defp create_bar_graph(vl, cpuinfo) do
+    vl
+    |> Vl.data_from_values(x: 1..32, y: cpuinfo)
+    |> Vl.mark(:bar, color: "#ffaaaa", width: 20)
+    |> Vl.encode_field(:x, "x", type: :quantitative)
+    |> Vl.encode_field(:y, "y", type: :quantitative)
+  end
+
 end
