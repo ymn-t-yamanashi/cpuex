@@ -1,12 +1,14 @@
 defmodule CpuexWeb.CpuLive.Index do
   alias VegaLite, as: Vl
+  alias Cpuex.CpuInfo
   use CpuexWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do
     Process.send_after(self(), :update, 250)
-    cpuinfo = get_cpuinfo()
+    cpuinfo = CpuInfo.get_cpuinfo()
     max_mhz = Enum.max(cpuinfo)
+
     socket
     |> assign(max_mhz: max_mhz)
     |> assign(graph: create_graph(cpuinfo))
@@ -16,29 +18,14 @@ defmodule CpuexWeb.CpuLive.Index do
   @impl true
   def handle_info(:update, socket) do
     Process.send_after(self(), :update, 250)
-    cpuinfo = get_cpuinfo()
+    cpuinfo = CpuInfo.get_cpuinfo()
 
     max_mhz = Enum.max(cpuinfo ++ [socket.assigns.max_mhz])
+
     socket
     |> assign(max_mhz: max_mhz)
     |> assign(graph: create_graph(cpuinfo))
     |> noreply()
-  end
-
-  def get_cpuinfo do
-    File.read!("/proc/cpuinfo")
-    |> String.split("\n")
-    |> Enum.filter(&String.match?(&1, ~r/cpu MHz/))
-    |> Enum.map(&get_mhz(&1))
-  end
-
-  def get_mhz(v) do
-    String.split(v, ":")
-    |> List.last()
-    |> String.split(".")
-    |> List.first()
-    |> String.trim()
-    |> String.to_integer()
   end
 
   def create_graph(cpuinfo) do
