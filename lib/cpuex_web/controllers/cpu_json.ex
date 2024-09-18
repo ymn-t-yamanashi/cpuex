@@ -3,7 +3,7 @@ defmodule CpuexWeb.CpuJSON do
   Renders a list of cpus.
   """
   def index(%{cpu: cpu}) do
-    %{cpu: cpu}
+    cpu.spec
   end
 
   @doc """
