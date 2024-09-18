@@ -1,39 +1,6 @@
 defmodule Cpuex.CpuInfo do
+  alias Cpuex.Color
   alias VegaLite, as: Vl
-
-  @color  [
-   "#ee0000", #0
-   "#ee0055", #1
-   "#ee5500", #3
-   "#ff0000", #4
-   "#ff0055", #5
-   "#ff5500", #6
-   "#ff5555", #7
-   "#ee0066", #8
-   "#ee6600", #9
-   "#ee0000", #10
-   "#ff0066", #11
-   "#ff6600", #12
-   "#ff6666", #13
-   "#ee0077", #14
-   "#ee7700", #15
-   "#ee0000", #16
-   "#ff0077", #17
-   "#ff7700", #18
-   "#ff7777", #19
-   "#ee0088", #20
-   "#ee8800", #21
-   "#ee0000", #22
-   "#ff0088", #23
-   "#ff8800", #24
-   "#ff8888", #25
-   "#ee0099", #26
-   "#ee9900", #27
-   "#ee0000", #28
-   "#ff0099", #29
-   "#ff9900", #30
-   "#ff9999" #31
-  ]
 
   def get_cpuinfo do
     File.read!("/proc/cpuinfo")
@@ -85,7 +52,9 @@ defmodule Cpuex.CpuInfo do
     graph =
       history
       |> Enum.with_index()
-      |> Enum.reduce([], fn {x, index}, acc -> acc ++ [create_line_graph(x, Enum.at(@color, index))] end)
+      |> Enum.reduce([], fn {x, index}, acc ->
+        acc ++ [create_line_graph(x, Color.get_color(index))]
+      end)
 
     Vl.new()
     |> Vl.layers(graph)
