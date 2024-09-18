@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+  </head>
+  <body>
+
+    <div id="chart"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.7.2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.0-beta.10"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@5.1.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite-api@0.1.0"></script>
+
+
+    <script>
+    chartSpec = {"$schema":"https://vega.github.io/schema/vega-lite/v5.json","height":400,"vconcat":[{"data":{"values":[{"x":1,"y":1100},{"x":2,"y":1100},{"x":3,"y":1100},{"x":4,"y":1099},{"x":5,"y":1100},{"x":6,"y":1100},{"x":7,"y":1100},{"x":8,"y":800},{"x":9,"y":1099},{"x":10,"y":1100},{"x":11,"y":1100},{"x":12,"y":800},{"x":13,"y":1099},{"x":14,"y":800},{"x":15,"y":1100},{"x":16,"y":800},{"x":17,"y":801},{"x":18,"y":799},{"x":19,"y":799},{"x":20,"y":799},{"x":21,"y":799},{"x":22,"y":799},{"x":23,"y":800},{"x":24,"y":800},{"x":25,"y":799},{"x":26,"y":800},{"x":27,"y":800},{"x":28,"y":800},{"x":29,"y":800},{"x":30,"y":800},{"x":31,"y":800},{"x":32,"y":799}]},"encoding":{"x":{"field":"x","scale":{"domain":[1,32]},"type":"quantitative"},"y":{"field":"y","scale":{"domain":[0,6000]},"type":"quantitative"}},"mark":{"color":"#ffaaaa","type":"bar","width":20},"width":800},{"layer":[]}],"width":800}
+      
+      vegaEmbed("#chart", chartSpec);
+    </script>
+
+  </body>
+</html>
