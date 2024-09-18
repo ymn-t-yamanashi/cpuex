@@ -19,6 +19,13 @@ defmodule Cpuex.CpuInfo do
   end
 
   def create_graph(cpuinfo, history \\ []) do
+    create_graph_map(cpuinfo, history)
+    |> Vl.Export.to_png()
+    |> Base.encode64()
+    |> then(&"data:image/png;base64,#{&1}")
+  end
+
+  def create_graph_map(cpuinfo, history \\ []) do
     Vl.new(width: 800, height: 400)
     |> Vl.concat(
       [
@@ -27,9 +34,6 @@ defmodule Cpuex.CpuInfo do
       ],
       :vertical
     )
-    |> Vl.Export.to_png()
-    |> Base.encode64()
-    |> then(&"data:image/png;base64,#{&1}")
   end
 
   defp create_bar_graph(cpuinfo) do

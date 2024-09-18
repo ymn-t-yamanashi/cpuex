@@ -21,4 +21,11 @@ defmodule CpuexWeb.FallbackController do
     |> put_view(html: CpuexWeb.ErrorHTML, json: CpuexWeb.ErrorJSON)
     |> render(:"404")
   end
+
+  def call(conn, p) do
+    IO.inspect(p)
+
+    conn
+    |> render(:index, cpus: "cpus")
+  end
 end
