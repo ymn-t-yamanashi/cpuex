@@ -22,10 +22,10 @@ defmodule CpuexWeb.FallbackController do
     |> render(:"404")
   end
 
-  def call(conn, p) do
-    IO.inspect(p)
+  # def call(conn, p) do
+  #   IO.inspect(p)
 
-    conn
-    |> render(:index, cpus: "cpus")
-  end
+  #   conn
+  #   |> render(:index, cpus: "cpus")
+  # end
 end
