@@ -1,7 +1,7 @@
 defmodule CpuexWeb.CpuLive.Index do
   alias Cpuex.CpuInfo
   use CpuexWeb, :live_view
-  @update_time 250
+  @update_time 2500
 
   @impl true
   def mount(_params, _session, socket) do
